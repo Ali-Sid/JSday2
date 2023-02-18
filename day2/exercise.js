@@ -1,5 +1,7 @@
 // Exercise: Level 1
 
+const { parse } = require("@babel/core")
+
 let challenge = '30 Days Of JavaScript' //1 declare a variable and assign the value
 console.log(challenge) //2 print the string. Output: 30 Days Of JavaScript
 console.log(challenge.length) //3 print the length. Output: 21
@@ -109,3 +111,93 @@ console.log(`In the sentence "${newSen}", the word 'because' appears "${newOccur
 
 
 // 3. Q: Clean the following text and find the most frequent word (hint, use replace and regular expressions).
+
+const senten = '%I $am@% a %tea@cher%, &and& I lo%#ve %te@a@ching%;. The@re $is no@th@ing; &as& mo@re rewarding as educa@ting &and& @emp%o@weri@ng peo@ple. ;I found tea@ching m%o@re interesting tha@n any ot#her %jo@bs. %Do@es thi%s mo@tiv#ate yo@u to be a tea@cher!? %Th#is 30#Days&OfJavaScript &is al@so $the $resu@lt of &love& of tea&ching';
+
+const cleanSentence = senten.replace(/[^a-zA-Z0-9 ]/g, '').toLowerCase();
+
+const words = cleanSentence.split(' ');
+
+const frequency = {};
+for(let i = 0; i < words.length; i++){
+    const newWord = words[i];
+
+    if(newWord in frequency) {
+        frequency[newWord]++;
+    } else {
+        frequency[newWord] = 1;
+    }
+}
+
+let mostFrequentWord = '';
+let highestFrequency = 0;
+
+for(const newWord in frequency) {
+    if(frequency[newWord] > highestFrequency) {
+        mostFrequentWord = newWord;
+        highestFrequency = frequency[newWord];
+    }
+}
+
+console.log(mostFrequentWord);
+console.log(words.join(' '));
+
+if (mostFrequentWord.length === 1) {
+    console.log(`The most frequent word is "${mostFrequentWord[0]}" with a frequency of ${highestFrequency}`);
+  } else {
+    console.log(`The most frequent words are "${mostFrequentWord.join('", "')}" with a frequency of ${highestFrequency}`);
+  }
+
+/**
+ * Output: 
+i
+i am a teacher and i love teaching there is nothing as more rewarding as educating and empowering people i found teaching more interesting than any other jobs does this motivate you to be a teacher this 30daysofjavascript is also the result of love of teaching
+The most frequent word is "i" with a frequency of 3 
+ */
+
+/**
+ * Explanation:
+ * 
+ * 1. The original string senten is defined.
+
+ * 2. The replace method is used to remove all non-alphanumeric characters and spaces from senten and convert it to lowercase. The resulting string is assigned to cleanSentence.
+
+ * 3. cleanSentence is split into an array of words using the split method, and the resulting array is assigned to words.
+
+ * 4. An empty object frequency is defined.
+
+ * 5. A for loop is used to iterate through the words array. For each word, if it already exists in the frequency object, its count is incremented. Otherwise, a new property is created in the frequency object with the word as the key and a count of 1 as the value.
+
+ * 6. A for...in loop is used to iterate through the frequency object. For each key (i.e., word) in the object, if its count is greater than highestFrequency, the key is assigned to mostFrequentWord and its count is assigned to highestFrequency.
+
+ * 7. The most frequent word (i.e., mostFrequentWord) is printed to the console.
+
+ * 8. The original string senten is printed to the console, with all non-alphanumeric characters and spaces removed and converted to lowercase.
+
+ * 9. If the length of mostFrequentWord is equal to 1, a string is printed to the console indicating the most frequent word and its frequency. Otherwise, a string is printed to the console indicating the most frequent words (in the case of a tie) and their frequency.
+ */
+
+/******************************************************************************************************************************************* */
+
+/** 4. Calculate the total annual income of the person by extracting the numbers from the following text. 'He earns 5000 euro from salary per month, 10000 euro annual bonus, 15000 euro online courses per month.' */
+
+let incPerson = 'He earns 5000 euro from salary per month, 10000 euro annual bonus, 15000 euro online courses per month.';
+
+const numPerson = incPerson.match(/\d+/g);
+console.log(numPerson)
+
+const salPerson = parseInt(numPerson[0]);
+const bonPerson = parseInt(numPerson[1]);
+const courPerson = parseInt(numPerson[2]);
+
+const annualIncome = 12 * (salPerson + courPerson) + bonPerson;
+
+console.log(`The total annual income of a person is ${annualIncome} euros.`)
+
+/**
+ * Output:
+ * 
+ * [ '5000', '10000', '15000' ]
+ * The total annual income of a person is 250000 euros.
+ * 
+ */
